@@ -1,3 +1,5 @@
+from collections import deque
+
 """
 Binary search trees are a data structure that enforce an ordering over
 the data they store. That ordering in turn makes it a lot more efficient
@@ -90,17 +92,51 @@ class BSTNode:
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
     def in_order_print(self):
-        pass
+        # If left child exists
+        if self.left:
+            # Recursively move through left children
+            # Call function on left child (makes the new self current self.left)
+            self.left.in_order_print()
+        # Once there are no left children, print current node value
+        print(self.value)
+        if self.right:
+            self.right.in_order_print()
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
-    def bft_print(self):
-        pass
+    # use deque to handle queue
+
+    def bft_print(self, node):
+        # Create a queue
+        q = deque()
+        # Add root to queue
+        q.append(node)
+        # Iterate over queue, adding children of current_node to queue
+        while len(q) > 0:
+            # Use dual functionality of popleft() to dequeue and retrieve first position node
+            current_node = q.popleft()
+            # Add children of current node to queue if exist
+            if current_node.left:
+                q.append(current_node.left)
+            if current_node.right:
+                q.append(current_node.right)
+            # Print current node value
+            print(current_node.value)
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
-    def dft_print(self):
-        pass
+    def dft_print(self, node):
+        # Proceed similarly as the bft but use stack
+        s = deque()
+        s.append(node)
+
+        while len(s) > 0:
+            current_node = s.pop()
+            if current_node.left:
+                s.append(current_node.left)
+            if current_node.right:
+                s.append(current_node.right)
+            print(current_node.value)
 
     # Stretch Goals -------------------------
     # Note: Research may be required
